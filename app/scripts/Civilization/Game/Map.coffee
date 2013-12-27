@@ -15,6 +15,7 @@ class Civilization.Game.Map
     tile.fillColor = 0x000000
     tile.redraw()
     @texture.render(tile.getDisplayObject())
+    Manager.updateState()
 
   getTileAt: (x, y) ->
     absX = Math.floor(x / TILE_SIZE) * TILE_SIZE

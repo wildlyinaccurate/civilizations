@@ -6,18 +6,8 @@ GAME_HEIGHT = TILE_SIZE * Y_TILES
 # GAME_WIDTH = document.body.clientWidth
 # GAME_HEIGHT = document.body.clientHeight
 
-stage = new PIXI.Stage(0xFFFFFF, interactive = true)
-renderer = PIXI.autoDetectRenderer(GAME_WIDTH, GAME_HEIGHT)
+Manager = new Civilization.Game.Manager()
 
-document.body.appendChild(renderer.view)
+document.body.appendChild(Manager.renderer.view)
 
-map = new Civilization.Game.Map(X_TILES, Y_TILES)
-map.draw()
-
-stage.addChild(map.getDisplayObject())
-
-animate = ->
-  renderer.render(stage)
-  requestAnimFrame(animate)
-
-requestAnimFrame(animate)
+Manager.start()
