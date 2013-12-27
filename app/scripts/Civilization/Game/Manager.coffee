@@ -1,0 +1,1 @@
+class Civilization.Game.Manager
