@@ -7,7 +7,9 @@ GAME_HEIGHT = TILE_SIZE * Y_TILES + INFOBAR_SIZE
 # GAME_WIDTH = document.body.clientWidth
 # GAME_HEIGHT = document.body.clientHeight
 
-Manager = new Civilization.Game.Manager()
+player = new Civilization.Entity.Player(0x4466DD, 0x7799EE)
+
+Manager = new Civilization.Game.Manager(player)
 
 document.body.appendChild(Manager.renderer.view)
 

@@ -1,3 +1,3 @@
 class Civilization.Entity.Player
 
-  constructor: (@name, @civilization) ->
+  constructor: (@fillColor, @borderColor) ->

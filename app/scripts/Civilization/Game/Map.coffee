@@ -9,11 +9,8 @@ class Civilization.Game.Map
     @DO.hitArea = new PIXI.Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT)
     @DO.interactive = true
 
-  handleClick: (data) =>
-    tile = @getTileAt(data.global.x, data.global.y)
-    tile.fillColor = 0xCC2222
+  updateTile: (tile) ->
     tile.redraw()
-
     @texture.render(tile.getDisplayObject())
 
   getTileAt: (x, y) ->
