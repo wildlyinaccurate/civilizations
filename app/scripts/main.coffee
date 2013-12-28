@@ -11,3 +11,9 @@ Manager = new Civilization.Game.Manager()
 document.body.appendChild(Manager.renderer.view)
 
 Manager.start()
+
+animate = ->
+  Manager.updateState()
+  requestAnimFrame(animate)
+
+requestAnimFrame(animate)
