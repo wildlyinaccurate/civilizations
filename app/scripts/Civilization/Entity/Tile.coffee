@@ -1,14 +1,15 @@
 class Civilization.Entity.Tile
-  owner: null
   fillColor: 0x22AA66
   borderColor: 0x99CCAA
 
+  @property 'owner',
+    get: -> @_owner
+    set: (@_owner) ->
+      @fillColor = @_owner.fillColor
+      @borderColor = @_owner.borderColor
+
   constructor: ->
     @graphics = new PIXI.Graphics()
-
-  setOwner: (@owner) ->
-    @fillColor = @owner.fillColor
-    @borderColor = @owner.borderColor
 
   draw: (@x, @y) ->
     @graphics.beginFill(@fillColor)

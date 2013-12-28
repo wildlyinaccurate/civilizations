@@ -1,19 +1,27 @@
 class Civilization.Game.Manager
   constructor: (@player) ->
-    @stage = new PIXI.Stage(0xFFFFFF, interactive = true)
     @renderer = PIXI.autoDetectRenderer(GAME_WIDTH, GAME_HEIGHT)
-    @map = new Civilization.Game.Map(X_TILES, Y_TILES)
+    @stage = new PIXI.Stage(0xFFFFFF, interactive = true)
+
     @statistics = new Civilization.Game.Statistics()
     @info = new Civilization.Game.InfoBar()
 
+    @map = new Civilization.Game.Map(X_TILES, Y_TILES)
     @map.getDisplayObject().click = (data) =>
+      return unless @state.is('idle') or @state.is('init')
+
       tile = @map.getTileAt(data.global.x, data.global.y)
-      tile.setOwner(@player)
+      tile.owner = @player
       @map.updateTile(tile)
 
       @statistics.turns++
 
+      @state.turnOver()
       @updateState()
+
+    @state = Civilization.Game.State.create()
+    @state.oncpu = =>
+      @info.setText('Waiting for other players to move')
 
   start: ->
     @updateState()
