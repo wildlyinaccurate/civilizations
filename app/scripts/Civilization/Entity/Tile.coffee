@@ -1,13 +1,12 @@
 class Civilization.Entity.Tile
-  fillAlpha: 1
   fillColor: 0x22AA66
-  borderColor: 0xDDDDDD
+  borderColor: 0x99CCAA
 
   constructor: ->
     @graphics = new PIXI.Graphics()
 
   draw: (@x, @y) ->
-    @graphics.beginFill(@fillColor, @fillAlpha)
+    @graphics.beginFill(@fillColor)
     @graphics.lineStyle(1, @borderColor, 1)
     @graphics.drawRect(@x, @y, TILE_SIZE, TILE_SIZE)
     @graphics.endFill()

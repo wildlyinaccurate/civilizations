@@ -7,20 +7,14 @@ class Civilization.Game.Map
     @texture = new PIXI.RenderTexture(GAME_WIDTH, GAME_HEIGHT)
     @DO = new PIXI.Sprite(@texture)
     @DO.hitArea = new PIXI.Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT)
-    @DO.setInteractive(true)
-    @DO.click = @changeTileOnEvent(0xDD0000, 1)
-    @DO.mouseover = @changeTileOnEvent(0xDD0000, 0.5)
+    @DO.interactive = true
 
-  changeTileOnEvent: (color, alpha) ->
-    (data) =>
-      tile = @getTileAt(data.global.x, data.global.y)
-      tile.fillColor = color
-      tile.fillAlpha = alpha
-      tile.redraw()
+  handleClick: (data) =>
+    tile = @getTileAt(data.global.x, data.global.y)
+    tile.fillColor = 0xCC2222
+    tile.redraw()
 
-      @texture.render(tile.getDisplayObject())
-
-      Manager.updateState()
+    @texture.render(tile.getDisplayObject())
 
   getTileAt: (x, y) ->
     absX = Math.floor(x / TILE_SIZE) * TILE_SIZE
