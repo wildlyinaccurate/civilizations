@@ -1,5 +1,6 @@
 class Civilization.Game.Map
   tiles: []
+  ownedTiles: 0
 
   constructor: (@xTiles, @yTiles) ->
     @resetTiles()
@@ -14,6 +15,8 @@ class Civilization.Game.Map
     @texture.render(tile.getDisplayObject())
 
   setTileOwner: (tile, owner) ->
+    @ownedTiles++ unless tile.owner
+
     tile.owner = owner
     @drawTile(tile)
 
