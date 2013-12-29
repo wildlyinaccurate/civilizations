@@ -10,6 +10,14 @@
     <!-- endbuild -->
   </head>
   <body>
+    <div id="introduction">
+      <h3>Click on empty tiles to convert them to your colour</h3>
+      <h3>Convert tiles to your colour by touching them with 3 of your tiles</h3>
+      <h3>You will be competing against computer-controller players</h3>
+      <h3>The player with the most tiles when there are no more empty tiles is the winner</h3>
+      <button class="play" onclick="document.getElementById('introduction').style.display = 'none'; loadGame()"><h1>Play!</h1></button>
+    </div>
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/pixi/bin/pixi.dev.js"></script>
