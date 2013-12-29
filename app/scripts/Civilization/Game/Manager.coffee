@@ -1,4 +1,7 @@
 class Civilization.Game.Manager
+  # Aliases
+  Map = Civilization.Game.Map
+
   constructor: (@player, @cpus) ->
     @renderer = PIXI.autoDetectRenderer(GAME_WIDTH, GAME_HEIGHT)
     @stage = new PIXI.Stage(0xFFFFFF, interactive = true)
@@ -32,7 +35,10 @@ class Civilization.Game.Manager
       for cpu in @cpus
         break if @state.is('finished')
 
-        cpu.chooseTile(@map)
+        tile = cpu.chooseTile(@map)
+
+        LOGGER.log("#{cpu.name} placed tile at [#{tile.coords.x}, #{tile.coords.y}]")
+        @map.setTileOwner(tile, cpu)
         @map.expandTiles()
         @updateState()
 
@@ -44,7 +50,26 @@ class Civilization.Game.Manager
       @state.finishGame() if @map.ownedTiles == X_TILES * Y_TILES
 
     @state.onenterfinished = =>
-      @info.setText(Civilization.Language.GAME_FINISHED)
+      scores = {}
+
+      for rowTiles in @map.tiles
+        for tile in rowTiles
+          scores[tile.owner.id] ?= owner: tile.owner, score: 0
+          scores[tile.owner.id].score += 10
+
+      ordered = []
+
+      for _, score of scores
+        LOGGER.log("#{score.owner.name} scored #{score.score}")
+        ordered.push(score)
+
+
+      ordered.sort (a, b) ->
+        return -1 if a.score < b.score
+        return 1 if a.score > b.score
+        return 0
+
+      @info.setText(Civilization.Language.GAME_FINISHED.format(ordered[0].owner.name, ordered[0].score))
       @updateState()
 
   start: ->
