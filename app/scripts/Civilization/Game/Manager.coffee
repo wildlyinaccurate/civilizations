@@ -20,7 +20,7 @@ class Civilization.Game.Manager
       @map.setTileOwner(tile, @player)
 
       @updateState()
-      @state.finishTurn(player)
+      @state.finishTurn()
 
     @state = Civilization.Game.State.create()
 
@@ -28,7 +28,7 @@ class Civilization.Game.Manager
       @info.setText(Civilization.Language.PLAYER_TURN)
       @updateState()
 
-    @state.onentercpu = =>
+    @state.oncpu = =>
       @info.setText(Civilization.Language.CPU_TURN)
       @updateState()
 
@@ -42,14 +42,17 @@ class Civilization.Game.Manager
         @map.expandTiles()
         @updateState()
 
-        @state.finishTurn(cpu)
+        @state.finishTurn()
 
       @state.finishRound() unless @state.is('finished')
 
-    @state.onfinishTurn = (event, from, to, player) =>
-      @state.finishGame() if @map.ownedTiles == X_TILES * Y_TILES
+    @state.onbeforefinishTurn = =>
+      if @map.ownedTiles == X_TILES * Y_TILES
+        @state.finishGame()
 
-    @state.onenterfinished = =>
+        return false
+
+    @state.onfinished = =>
       scores = {}
 
       for rowTiles in @map.tiles
