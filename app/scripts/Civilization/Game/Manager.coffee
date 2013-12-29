@@ -63,14 +63,17 @@ class Civilization.Game.Manager
         LOGGER.log("#{score.owner.name} scored #{score.score}")
         ordered.push(score)
 
-
       ordered.sort (a, b) ->
         return -1 if a.score < b.score
         return 1 if a.score > b.score
         return 0
       .reverse()
 
-      @info.setText(Civilization.Language.GAME_FINISHED.format(ordered[0].owner.name, ordered[0].score))
+      LOGGER.log("Winner is #{ordered[0].owner.name} with #{ordered[0].score} points")
+      @info.setText(Civilization.Language.GAME_FINISHED.format(
+        ordered[0].owner.name,
+        ordered[0].score
+      ))
       @updateState()
 
   start: ->
