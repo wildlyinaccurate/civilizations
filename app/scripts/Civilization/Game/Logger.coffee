@@ -2,7 +2,7 @@ class Civilization.Game.Logger
   history: []
 
   _log: (level, args) ->
-    console[level](Array::slice.call(args))
+    console[level].apply(console, Array::slice.call(args))
 
     @history.push
       level: level
