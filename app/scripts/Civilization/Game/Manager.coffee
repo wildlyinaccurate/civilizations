@@ -14,9 +14,8 @@ class Civilization.Game.Manager
 
       return if tile.owner
 
-      tile.owner = @player
-      @map.updateTile(tile)
-      @map.expandTiles()
+      LOGGER.log("#{@player.name} placed tile at [#{tile.coords.x}, #{tile.coords.y}]")
+      @map.setTileOwner(tile, @player)
 
       @statistics.turns++
 

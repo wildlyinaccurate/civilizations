@@ -9,9 +9,13 @@ class Civilization.Game.Map
     @DO.hitArea = new PIXI.Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT)
     @DO.interactive = true
 
-  updateTile: (tile) ->
-    tile.redraw()
+  drawTile: (tile, x, y) ->
+    if x? and y? then tile.draw(x, y) else tile.redraw()
     @texture.render(tile.getDisplayObject())
+
+  setTileOwner: (tile, owner) ->
+    tile.owner = owner
+    @drawTile(tile)
 
   # Gets the tile at indexes x and y
   getTile: (x, y) ->
@@ -48,21 +52,23 @@ class Civilization.Game.Map
           [x + 1, y]
         ]
 
-        neededForClaim = if tile.owner then 3 else 2
-        adjacentTiles = {}
+        neededForClaim = 3
+        aTiles = {}
 
-        for [x, y] in adjacentCoords
-          adjacentTile = @getTile(x, y)
+        for [ax, ay] in adjacentCoords
+          aTile = @getTile(ax, ay)
 
-          continue unless adjacentTile and adjacentTile.owner
+          continue unless aTile and aTile.owner
 
-          adjacentTiles[adjacentTile.owner.id] ?= owner: adjacentTile.owner, count: 0
-          adjacentTiles[adjacentTile.owner.id].count++
+          aTiles[aTile.owner.id] ?= owner: aTile.owner, count: 0
+          aTiles[aTile.owner.id].count++
 
-        for _, adjacentTile of adjacentTiles
-          if adjacentTile.count >= neededForClaim
-            tile.owner = adjacentTile.owner
-            @updateTile(tile)
+        for _, aTile of aTiles
+          if aTile.count >= neededForClaim and aTile.owner isnt tile.owner
+            LOGGER.log("Tile at [#{ax}, #{ay}] taken by #{aTile.owner.name}")
+            @setTileOwner(tile, aTile.owner)
+
+            break
 
   resetTiles: ->
     rows = @yTiles
@@ -79,8 +85,7 @@ class Civilization.Game.Map
   draw: ->
     for rowTiles, y in @tiles
       for tile, x in rowTiles
-        tile.draw(x * TILE_SIZE, y * TILE_SIZE)
-        @texture.render(tile.getDisplayObject())
+        @drawTile(tile, x * TILE_SIZE, y * TILE_SIZE)
 
   getDisplayObject: ->
     @DO

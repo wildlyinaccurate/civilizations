@@ -2,6 +2,11 @@ class Civilization.Entity.Tile
   fillColor: 0xF2EDE4
   borderColor: 0xD9D1C7
 
+  @property 'coords',
+    get: ->
+      x: @x / TILE_SIZE
+      y: @y / TILE_SIZE
+
   @property 'owner',
     get: -> @_owner
     set: (@_owner) ->

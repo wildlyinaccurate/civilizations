@@ -17,9 +17,10 @@ cpuColors = [
 
 cpus = []
 cpus.push(new Civilization.Entity.CPU("CPU #{i}", cpuColors[i - 1])) for i in [1..cpuCount]
-LOGGER.log("Created #{cpus.length} CPU players")
-
 player = new Civilization.Entity.Player('Player 1', 0x428BCA)
+
+LOGGER.log("#{cpus.length} CPU players have joined the game")
+LOGGER.log("#{player.name} has joined the game")
 
 Manager = new Civilization.Game.Manager(player, cpus)
 document.body.appendChild(Manager.renderer.view)
