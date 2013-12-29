@@ -11,6 +11,9 @@ class Civilization.Game.Logger
   log: ->
     @_log 'log', arguments
 
+  debug: ->
+    @_log 'debug', arguments
+
   info: ->
     @_log 'info', arguments
 
