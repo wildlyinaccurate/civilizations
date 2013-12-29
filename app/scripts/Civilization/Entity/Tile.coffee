@@ -16,16 +16,17 @@ class Civilization.Entity.Tile
   constructor: ->
     @graphics = new PIXI.Graphics()
 
-  draw: (@x, @y) ->
+  draw: (x, y) ->
+    if x? and y?
+      @x = x
+      @y = y
+    else
+      @graphics.clear()
+
     @graphics.beginFill(@fillColor)
     @graphics.lineStyle(1, @borderColor, 1)
     @graphics.drawRect(@x, @y, TILE_SIZE, TILE_SIZE)
     @graphics.endFill()
-
-  # Clears and re-draws the tile at its last location
-  redraw: ->
-    @graphics.clear()
-    @draw(@x, @y)
 
   getDisplayObject: ->
     @graphics

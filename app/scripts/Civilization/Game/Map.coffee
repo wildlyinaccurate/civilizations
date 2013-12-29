@@ -10,7 +10,7 @@ class Civilization.Game.Map
     @DO.interactive = true
 
   drawTile: (tile, x, y) ->
-    if x? and y? then tile.draw(x, y) else tile.redraw()
+    tile.draw(x, y)
     @texture.render(tile.getDisplayObject())
 
   setTileOwner: (tile, owner) ->
