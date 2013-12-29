@@ -4,9 +4,10 @@ X_TILES = 16
 Y_TILES = 12
 GAME_WIDTH = TILE_SIZE * X_TILES
 GAME_HEIGHT = TILE_SIZE * Y_TILES + INFOBAR_SIZE
-# GAME_WIDTH = document.body.clientWidth
-# GAME_HEIGHT = document.body.clientHeight
 
+LOGGER = new Civilization.Game.Logger()
+
+cpuCount = 2
 cpuColors = [
   0x5CB85C,
   0xF0AD4E,
@@ -15,11 +16,11 @@ cpuColors = [
 ]
 
 cpus = []
-cpus.push(new Civilization.Entity.CPU("CPU #{i + 1}", cpuColors[i])) for i in [0..1]
+cpus.push(new Civilization.Entity.CPU("CPU #{i}", cpuColors[i - 1])) for i in [1..cpuCount]
+LOGGER.log("Created #{cpus.length} CPU players")
+
 player = new Civilization.Entity.Player('Player 1', 0x428BCA)
 
 Manager = new Civilization.Game.Manager(player, cpus)
-
 document.body.appendChild(Manager.renderer.view)
-
 Manager.start()

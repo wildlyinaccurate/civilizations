@@ -5,12 +5,12 @@ class Civilization.Game.State
       initial: 'idle'
       events: [
         {
-          name: 'turnOver'
+          name: 'finishPlayerTurn'
           from: 'idle'
           to: 'cpu'
         },
         {
-          name: 'cpuTurnOver'
+          name: 'finishCpuTurn'
           from: 'cpu'
           to: 'idle'
         }

@@ -10,26 +10,33 @@ class Civilization.Game.Manager
     @map.getDisplayObject().click = (data) =>
       return unless @state.is('idle')
 
-      tile = @map.getTileAt(data.global.x, data.global.y)
+      tile = @map.getTileAtCoords(data.global.x, data.global.y)
 
       return if tile.owner
 
       tile.owner = @player
       @map.updateTile(tile)
+      @map.expandTiles()
 
       @statistics.turns++
 
-      @state.turnOver()
+      @state.finishPlayerTurn()
       @updateState()
 
     @state = Civilization.Game.State.create()
-    @state.oncpu = =>
-      @info.setText(Civilization.Language.CPU_TURN)
-      cpu.chooseTile(@map) for cpu in @cpus
-      @state.cpuTurnOver()
 
     @state.onidle = =>
       @info.setText(Civilization.Language.PLAYER_TURN)
+
+    @state.oncpu = =>
+      @info.setText(Civilization.Language.CPU_TURN)
+
+      for cpu in @cpus
+        cpu.chooseTile(@map)
+        @map.expandTiles()
+
+      @state.finishCpuTurn()
+      @updateState()
 
   start: ->
     @updateState()
