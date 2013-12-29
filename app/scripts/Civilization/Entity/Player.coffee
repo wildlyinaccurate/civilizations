@@ -4,4 +4,5 @@ class Civilization.Entity.Player
     @fillColor = @mainColor
 
     # Convert the long int color to a hex string for TinyColor
-    @borderColor = tinycolor.darken(@mainColor.toString(16), 1)
+    borderColor = tinycolor.darken(@mainColor.toString(16), 30)
+    @borderColor = parseInt(borderColor.toHex(), 16)
