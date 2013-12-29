@@ -68,6 +68,7 @@ class Civilization.Game.Manager
         return -1 if a.score < b.score
         return 1 if a.score > b.score
         return 0
+      .reverse()
 
       @info.setText(Civilization.Language.GAME_FINISHED.format(ordered[0].owner.name, ordered[0].score))
       @updateState()
