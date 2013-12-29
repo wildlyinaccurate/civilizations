@@ -2,17 +2,17 @@
 class Civilization.Game.State
   @create: ->
     fsm = StateMachine.create({
-      initial: 'init'
+      initial: 'idle'
       events: [
         {
-          name: 'firstTurn'
-          from: 'init'
-          to: 'idle'
+          name: 'turnOver'
+          from: 'idle'
+          to: 'cpu'
         },
         {
-          name: 'turnOver'
-          from: ['idle', 'init']
-          to: 'cpu'
+          name: 'cpuTurnOver'
+          from: 'cpu'
+          to: 'idle'
         }
       ]
     })

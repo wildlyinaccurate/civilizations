@@ -1,2 +1,3 @@
 Civilization.Language =
-  START_INFO: 'Click any tile to build your first city on it'
+  PLAYER_TURN: 'Click on any tile to take control of it'
+  CPU_TURN: 'Waiting for other players to move'

@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "pixi": "~1.3.0",
-    "javascript-state-machine": "~2.2.0"
+    "javascript-state-machine": "~2.2.0",
+    "tinycolor": "~0.9.0"
   },
   "devDependencies": {}
 }

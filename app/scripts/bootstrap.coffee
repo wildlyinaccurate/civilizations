@@ -2,7 +2,4 @@
 Civilization =
   Entity: {}
   Game: {}
-
-# This could go somewhere meaningful too...
-Function::property = (prop, desc) ->
-  Object.defineProperty @prototype, prop, desc
+  Util: {}

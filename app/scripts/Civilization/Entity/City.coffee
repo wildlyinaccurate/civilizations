@@ -1,1 +1,0 @@
-class Civilization.Entity.City

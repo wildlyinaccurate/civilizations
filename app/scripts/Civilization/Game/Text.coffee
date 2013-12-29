@@ -4,8 +4,8 @@ class Civilization.Game.Text extends PIXI.Text
     styles = {
       font: '16px Monospace'
       align: 'left'
-      fill: 'rgba(255, 255, 255, 1)'
-      stroke: 'rgba(200, 200, 200, 0.5)'
+      fill: 'rgba(80, 80, 80, 0.65)'
+      stroke: 'rgba(0, 0, 0, 0.4)'
       strokeThickness: 1
     }
 

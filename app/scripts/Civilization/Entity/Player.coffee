@@ -1,3 +1,6 @@
 class Civilization.Entity.Player
+  constructor: (@name, @mainColor) ->
+    @fillColor = @mainColor
 
-  constructor: (@fillColor, @borderColor) ->
+    # Convert the long int color to a hex string for TinyColor
+    @borderColor = tinycolor.darken(@mainColor.toString(16), 1)

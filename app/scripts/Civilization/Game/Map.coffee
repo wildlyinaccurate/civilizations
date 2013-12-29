@@ -22,6 +22,12 @@ class Civilization.Game.Map
 
     @tiles[yIndex][xIndex]
 
+  getRandomTile: ->
+    x = Civilization.Util.Math.randomIntBetween(0, @xTiles - 1)
+    y = Civilization.Util.Math.randomIntBetween(0, @yTiles - 1)
+
+    @tiles[y][x]
+
   resetTiles: ->
     rows = @yTiles
 

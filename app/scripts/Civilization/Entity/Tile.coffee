@@ -1,6 +1,6 @@
 class Civilization.Entity.Tile
-  fillColor: 0x22AA66
-  borderColor: 0x99CCAA
+  fillColor: 0xF2EDE4
+  borderColor: 0xD9D1C7
 
   @property 'owner',
     get: -> @_owner
