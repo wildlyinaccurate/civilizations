@@ -19,6 +19,7 @@ class Civilization.Game.Map
 
     tile.owner = owner
     @drawTile(tile)
+    @expandTiles()
 
   # Gets the tile at indexes x and y
   getTile: (x, y) ->

@@ -39,7 +39,6 @@ class Civilization.Game.Manager
 
         LOGGER.log("#{cpu.name} placed tile at [#{tile.coords.x}, #{tile.coords.y}]")
         @map.setTileOwner(tile, cpu)
-        @map.expandTiles()
         @updateState()
 
         @state.finishTurn()
