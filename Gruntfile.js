@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         watch: {
             coffee: {
                 files: ['<%= yeoman.app %>/scripts/**/*.{coffee,litcoffee,coffee.md}'],
-                tasks: ['coffee:dist']
+                tasks: ['coffee:dist', 'browserify:dist']
             },
             coffeeTest: {
                 files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
@@ -109,6 +109,16 @@ module.exports = function (grunt) {
             }
         },
 
+        browserify: {
+            options: {
+                transform: ['coffeeify']
+            },
+            dist: {
+                files: {
+                    '.tmp/scripts/browserify.js': ['<%= yeoman.app %>/scripts/browserify.coffee']
+                }
+            }
+        },
 
         // Compiles CoffeeScript to JavaScript
         coffee: {
@@ -119,7 +129,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>/scripts',
-                    src: '**/*.{coffee,litcoffee,coffee.md}',
+                    src: ['**/*.{coffee,litcoffee,coffee.md}', '!browserify.coffee'],
                     dest: '.tmp/scripts',
                     ext: '.js'
                 }]
@@ -255,6 +265,7 @@ module.exports = function (grunt) {
         concurrent: {
             server: [
                 'coffee:dist',
+                'browserify:dist',
                 'copy:styles'
             ],
             test: [
@@ -263,6 +274,7 @@ module.exports = function (grunt) {
             ],
             dist: [
                 'coffee',
+                'browserify',
                 'copy:styles',
                 'imagemin'
             ]
