@@ -1,8 +1,8 @@
 class Civilization.Game.Map
-  tiles: []
   ownedTiles: 0
 
   constructor: (@xTiles, @yTiles) ->
+    @tiles = ndarray([], [@xTiles, @yTiles])
     @resetTiles()
 
     @texture = new PIXI.RenderTexture(GAME_WIDTH, GAME_HEIGHT)
@@ -23,7 +23,7 @@ class Civilization.Game.Map
 
   # Gets the tile at indexes x and y
   getTile: (x, y) ->
-    @tiles[y]?[x]
+    @tiles.get(x, y)
 
   # Gets the tiles at 2D (pixel) co-ordinates x and y
   getTileAtCoords: (x, y) ->
@@ -47,49 +47,45 @@ class Civilization.Game.Map
   # Owned tiles can be taken by another player if they are touched by 3 or more
   # tiles owned by that player.
   expandTiles: ->
-    for rowTiles, y in @tiles
-      for tile, x in rowTiles
-        adjacentCoords = [
-          [x, y - 1],
-          [x, y + 1],
-          [x - 1, y],
-          [x + 1, y]
-        ]
+    @eachTile (tile, x, y) =>
+      adjacentCoords = [
+        [x, y - 1],
+        [x, y + 1],
+        [x - 1, y],
+        [x + 1, y]
+      ]
 
-        neededForClaim = 3
-        aTiles = {}
+      neededForClaim = 3
+      aTiles = {}
 
-        for [ax, ay] in adjacentCoords
-          aTile = @getTile(ax, ay)
+      for [ax, ay] in adjacentCoords
+        aTile = @getTile(ax, ay)
 
-          continue unless aTile and aTile.owner
+        continue unless aTile and aTile.owner
 
-          aTiles[aTile.owner.id] ?= owner: aTile.owner, count: 0
-          aTiles[aTile.owner.id].count++
+        aTiles[aTile.owner.id] ?= owner: aTile.owner, count: 0
+        aTiles[aTile.owner.id].count++
 
-        for _, aTile of aTiles
-          if aTile.count >= neededForClaim and aTile.owner isnt tile.owner
-            LOGGER.log("Tile at [#{ax}, #{ay}] taken by #{aTile.owner.name}")
-            @setTileOwner(tile, aTile.owner)
+      for _, aTile of aTiles
+        if aTile.count >= neededForClaim and aTile.owner isnt tile.owner
+          LOGGER.log("Tile at [#{ax}, #{ay}] taken by #{aTile.owner.name}")
+          @setTileOwner(tile, aTile.owner)
 
-            break
+          break
+
+  # Run the specified function on each tile
+  eachTile: (cb) ->
+    for x in [0..@tiles.shape[0] - 1]
+      for y in [0..@tiles.shape[1] - 1]
+        cb(@tiles.get(x, y), x, y)
 
   resetTiles: ->
-    rows = @yTiles
-
-    while rows--
-      rowTiles = []
-      rowCols = @xTiles
-
-      while rowCols--
-        rowTiles.push(new Civilization.Entity.Tile())
-
-      @tiles.push(rowTiles)
+    @eachTile (_, x, y) =>
+      @tiles.set(x, y, new Civilization.Entity.Tile())
 
   draw: ->
-    for rowTiles, y in @tiles
-      for tile, x in rowTiles
-        @drawTile(tile, x * TILE_SIZE, y * TILE_SIZE)
+    @eachTile (tile, x, y) =>
+      @drawTile(tile, x * TILE_SIZE, y * TILE_SIZE)
 
   getDisplayObject: ->
     @DO

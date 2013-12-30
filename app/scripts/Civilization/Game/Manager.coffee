@@ -54,10 +54,9 @@ class Civilization.Game.Manager
     @state.onfinished = =>
       scores = {}
 
-      for rowTiles in @map.tiles
-        for tile in rowTiles
-          scores[tile.owner.id] ?= owner: tile.owner, score: 0
-          scores[tile.owner.id].score += 10
+      @map.eachTile (tile) ->
+        scores[tile.owner.id] ?= owner: tile.owner, score: 0
+        scores[tile.owner.id].score += 10
 
       ordered = []
 
