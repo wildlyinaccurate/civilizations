@@ -19,7 +19,7 @@ class Civilization.Game.Map
 
     tile.owner = owner
     @drawTile(tile)
-    @expandTiles()
+    @expandTilesFrom(tile)
 
   # Gets the tile at indexes x and y
   getTile: (x, y) ->
@@ -41,32 +41,41 @@ class Civilization.Game.Map
 
     @getTile(x, y)
 
-  # Unowned tiles which are touched by 2 or more tiles owned by a player wuill
-  # become that player's.
-  #
-  # Owned tiles can be taken by another player if they are touched by 3 or more
-  # tiles owned by that player.
-  expandTiles: ->
-    @eachTile (tile, x, y) =>
-      adjacentCoords = [
-        [x, y - 1],
-        [x, y + 1],
-        [x - 1, y],
-        [x + 1, y]
-      ]
+  getAdjacentTiles: (tile) ->
+    x = tile.coords.x
+    y = tile.coords.y
 
-      neededForClaim = 3
+    [
+      @tiles.get(x, y - 1),
+      @tiles.get(x, y + 1),
+      @tiles.get(x + 1, y),
+      @tiles.get(x - 1, y)
+    ]
+
+  # Tiles which are touched by 3 or more tiles owned by a player will become
+  # that player's.
+  #
+  # @param {Tile} refTile The tile from which to expand
+  expandTilesFrom: (refTile) ->
+    neededForClaim = 3
+    x = refTile.coords.x
+    y = refTile.coords.y
+
+    for tile in @getAdjacentTiles(refTile)
+      continue unless tile
+
       aTiles = {}
 
-      for [ax, ay] in adjacentCoords
-        aTile = @getTile(ax, ay)
-
+      for aTile in @getAdjacentTiles(tile)
         continue unless aTile and aTile.owner
 
         aTiles[aTile.owner.id] ?= owner: aTile.owner, count: 0
         aTiles[aTile.owner.id].count++
 
       for _, aTile of aTiles
+        ax = tile.coords.x
+        ay = tile.coords.y
+
         if aTile.count >= neededForClaim and aTile.owner isnt tile.owner
           LOGGER.log("Tile at [#{ax}, #{ay}] taken by #{aTile.owner.name}")
           @setTileOwner(tile, aTile.owner)
