@@ -2,10 +2,11 @@ INFOBAR_SIZE = 30
 TILE_SIZE = 40
 
 # User-configured values
-X_TILES = null
-Y_TILES = null
-GAME_WIDTH = null
-GAME_HEIGHT = null
+CPU_COUNT = 0
+X_TILES = 0
+Y_TILES = 0
+GAME_WIDTH = 0
+GAME_HEIGHT = 0
 
 LOGGER = new Civilization.Game.Logger()
 
