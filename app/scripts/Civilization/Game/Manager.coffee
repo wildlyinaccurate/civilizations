@@ -14,7 +14,7 @@ class Civilization.Game.Manager
 
       tile = @map.getTileAtCoords(data.global.x, data.global.y)
 
-      return if tile.owner
+      return if !tile or tile.owner
 
       LOGGER.log("#{@player.name} placed tile at [#{tile.coords.x}, #{tile.coords.y}]")
       @map.setTileOwner(tile, @player)
