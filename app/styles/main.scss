@@ -1,0 +1,20 @@
+@import "sass-bootstrap/lib/variables";
+@import "sass-bootstrap/lib/mixins";
+
+@import "sass-bootstrap/lib/normalize";
+@import "sass-bootstrap/lib/print";
+
+@import "sass-bootstrap/lib/type";
+@import "sass-bootstrap/lib/forms";
+@import "sass-bootstrap/lib/buttons";
+@import "sass-bootstrap/lib/component-animations";
+
+body {
+  text-align: center;
+  padding-top: 20px;
+}
+
+#start-screen {
+  width: 80%;
+  margin: 40px auto;
+}

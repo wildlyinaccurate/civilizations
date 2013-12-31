@@ -1,14 +1,24 @@
 INFOBAR_SIZE = 30
 TILE_SIZE = 40
-X_TILES = 16
-Y_TILES = 12
-GAME_WIDTH = TILE_SIZE * X_TILES
-GAME_HEIGHT = TILE_SIZE * Y_TILES + INFOBAR_SIZE
+
+# User-configured values
+X_TILES = null
+Y_TILES = null
+GAME_WIDTH = null
+GAME_HEIGHT = null
 
 LOGGER = new Civilization.Game.Logger()
 
+$ = (id) ->
+  document.getElementById(id)
+
 loadGame = ->
-  cpuCount = 2
+  X_TILES = parseInt($('x-tiles').value, 10)
+  Y_TILES = parseInt($('y-tiles').value, 10)
+  GAME_WIDTH = TILE_SIZE * X_TILES
+  GAME_HEIGHT = TILE_SIZE * Y_TILES + INFOBAR_SIZE
+
+  CPU_COUNT = parseInt($('cpu-count').value, 10)
   cpuColors = [
     0x5CB85C,
     0xF0AD4E,
@@ -17,7 +27,7 @@ loadGame = ->
   ]
 
   cpus = []
-  cpus.push(new Civilization.Entity.CPU("CPU #{i}", cpuColors[i - 1])) for i in [1..cpuCount]
+  cpus.push(new Civilization.Entity.CPU("CPU #{i}", cpuColors[i - 1])) for i in [1..CPU_COUNT]
   player = new Civilization.Entity.Player('Player 1', 0x428BCA)
 
   LOGGER.log("#{cpus.length} CPU players have joined the game")
@@ -26,3 +36,9 @@ loadGame = ->
   Manager = new Civilization.Game.Manager(player, cpus)
   document.body.appendChild(Manager.renderer.view)
   Manager.start()
+
+$('game-parameters').addEventListener('submit', (e) ->
+  $('start-screen').style.display = 'none'
+  loadGame()
+  e.preventDefault()
+, false)
