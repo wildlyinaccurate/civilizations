@@ -1,3 +1,5 @@
+### This game has been re-written and now lives in [wildlyinaccurate/squared](https://github.com/wildlyinaccurate/squared)
+
 **Goal:** A sort of mini-Sid Meier's Civilization.
 **Current Status:** Some sort of multiplayer Conway's Game of Life
 
